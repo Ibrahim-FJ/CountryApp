@@ -22,11 +22,11 @@ class CountryViewModel: ViewModel() {
     }
 
 
-
     fun getCountryPhoto() {
         viewModelScope.launch {
             try {
-                _country.value = "Success: ${CountryApi.retrofitService.getPhoto().size}"
+
+                _country.value = "Success: ${CountryApi.retrofitService.getPhoto().data.size}"
 
             }catch (e: Exception){
                 _country.value = "Failure: ${e.message}"

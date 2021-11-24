@@ -16,10 +16,8 @@ private val retrofit = Retrofit.Builder()
 
 
 
-
-
-
 object CountryApi {
     val retrofitService : CountryApiService by lazy {
-        retrofit.create(CountryApiService::class.java) }
+        retrofit.create(CountryApiService::class.java)
+    }
 }
