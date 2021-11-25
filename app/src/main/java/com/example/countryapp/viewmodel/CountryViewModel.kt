@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.countryapp.model.Country
+import com.example.countryapp.model.CountryList
 import java.lang.Exception
 
 
@@ -16,6 +18,8 @@ class CountryViewModel: ViewModel() {
 
     private var _country = MutableLiveData<String>()
     val country: LiveData<String> = _country
+    private var _countryPhotos = MutableLiveData<List<Country>>()
+    val countryPhotos: LiveData<List<Country>> = _countryPhotos
 
     init {
         getCountryPhoto()
@@ -25,8 +29,8 @@ class CountryViewModel: ViewModel() {
     fun getCountryPhoto() {
         viewModelScope.launch {
             try {
-
-                _country.value = "Success: ${CountryApi.retrofitService.getPhoto().data.size}"
+                _countryPhotos.value = CountryApi.retrofitService.getPhoto().data
+                _country.value = "Success"
 
             }catch (e: Exception){
                 _country.value = "Failure: ${e.message}"
