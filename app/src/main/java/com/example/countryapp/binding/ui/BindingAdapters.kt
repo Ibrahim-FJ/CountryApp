@@ -1,30 +1,34 @@
 package com.example.countryapp.binding.ui
 
+
 import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.net.toUri
+
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.example.countryapp.R
+import coil.ImageLoader
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.example.countryapp.adapter.CountryAdapter
 import com.example.countryapp.model.Country
 
 
 @BindingAdapter("imageUrl")
-fun bindImage(imgView: ImageView, imgUrl: String?) {
-    imgUrl?.let {
-        val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-        imgView.load(imgUri){
-            placeholder(R.drawable.loading_animation)
-            error(R.drawable.ic_broken_image)
-        }
+fun bindImage(imgView: ImageView, imgUrl: String?){
+    imgUrl.let {
+        val imageLoader = ImageLoader.Builder(imgView.context)
+            .componentRegistry { add(SvgDecoder(imgView.context)) }
+            .build()
 
-     //   Picasso.get().load("https://mars.nasa.gov/msl-raw-images/msss/01000/mcam/1000MR0044631200503680E0C_DXXX.jpg").into(imgView)
+        val request = ImageRequest.Builder(imgView.context)
+            .data(imgUrl)
+            .target(imgView)
+            .build()
 
+        imageLoader.enqueue(request)
     }
-}
 
+
+}
 
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<Country>?){
